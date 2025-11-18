@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Palette Preview</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+      transition: 0.3s;
+    }
+
+    .toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: #333;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .color-box {
+      height: 120px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    body.dark {
+      background: #111;
+      color: #eee;
+    }
+
+    body.dark .toggle {
+      background: #eee;
+      color: #111;
+    }
+      .palette-title {
+      padding: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      background: #eaeaea;
+      border-bottom: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .colors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      padding: 15px;
+    }
+
+    .palette.light {
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="toggle" onclick="toggleMode()">Toggle Dark/Light</div>
+  <div class="container">
+    <h1>Color Palette Preview</h1>
+
+    <h2>Light Mode Palette</h2>
+    <div class="palette">
+      <div class="color-box" style="background:#3B82F6">#3B82F6</div>
+      <div class="color-box" style="background:#1E40AF">#1E40AF</div>
+      <div class="color-box" style="background:#38BDF8">#38BDF8</div>
+      <div class="color-box" style="background:#F3F4F6; color:#111">#F3F4F6</div>
+      <div class="color-box" style="background:#1F2937">#1F2937</div>
+    </div>
+
+    <h2>Dark Mode Palette</h2>
+    <div class="palette">
+      <div class="color-box" style="background:#0EA5E9">#0EA5E9</div>
+      <div class="color-box" style="background:#0C4A6E">#0C4A6E</div>
+      <div class="color-box" style="background:#38BDF8">#38BDF8</div>
+      <div class="color-box" style="background:#0F172A">#0F172A</div>
+      <div class="color-box" style="background:#E2E8F0; color:#000">#E2E8F0</div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+  <!-- LIGHT THEME PALETTES -->
+  <h1 style="margin-top:60px;">Light Theme Color Palette Preview</h1>
+
+  <!-- 1. Soft Blue Light -->
+  <div class="palette light">
+    <div class="palette-title">1. Soft Blue Light</div>
+    <div class="colors">
+      <div class="color-box" style="background:#FFFFFF; color:#000">#FFFFFF<br>Background</div>
+      <div class="color-box" style="background:#F3F8FF; color:#000">#F3F8FF<br>Surface</div>
+      <div class="color-box" style="background:#3A7BFF; color:#fff">#3A7BFF<br>Primary</div>
+      <div class="color-box" style="background:#66C7FF; color:#000">#66C7FF<br>Secondary</div>
+      <div class="color-box" style="background:#FFB800; color:#000">#FFB800<br>Accent</div>
+      <div class="color-box" style="background:#1A1A1A; color:#fff">#1A1A1A<br>Text Primary</div>
+      <div class="color-box" style="background:#6B6B6B; color:#fff">#6B6B6B<br>Text Secondary</div>
+    </div>
+  </div>
+
+  <!-- 2. Elegant Minimal Light -->
+  <div class="palette light">
+    <div class="palette-title">2. Elegant Minimal Light</div>
+    <div class="colors">
+      <div class="color-box" style="background:#FFFFFF; color:#000">#FFFFFF<br>Background</div>
+      <div class="color-box" style="background:#F2F2F2; color:#000">#F2F2F2<br>Surface</div>
+      <div class="color-box" style="background:#4A90E2; color:#fff">#4A90E2<br>Primary</div>
+      <div class="color-box" style="background:#50E3C2; color:#000">#50E3C2<br>Secondary</div>
+      <div class="color-box" style="background:#F5A623; color:#000">#F5A623<br>Accent</div>
+      <div class="color-box" style="background:#000000; color:#fff">#000000<br>Text Primary</div>
+      <div class="color-box" style="background:#6B6B6B; color:#fff">#6B6B6B<br>Text Secondary</div>
+    </div>
+  </div>
+
+  <!-- 3. Pastel Purple Light -->
+  <div class="palette light">
+    <div class="palette-title">3. Pastel Purple Light</div>
+    <div class="colors">
+      <div class="color-box" style="background:#FFFFFF; color:#000">#FFFFFF<br>Background</div>
+      <div class="color-box" style="background:#F4EEFF; color:#000">#F4EEFF<br>Surface</div>
+      <div class="color-box" style="background:#8E44FF; color:#fff">#8E44FF<br>Primary</div>
+      <div class="color-box" style="background:#CDA2FF; color:#000">#CDA2FF<br>Secondary</div>
+      <div class="color-box" style="background:#FF5EA6; color:#000">#FF5EA6<br>Accent</div>
+      <div class="color-box" style="background:#1A1A1A; color:#fff">#1A1A1A<br>Text Primary</div>
+      <div class="color-box" style="background:#7C7C7C; color:#fff">#7C7C7C<br>Text Secondary</div>
+    </div>
+  </div>
+
+</body>
+</html>
