@@ -1,29 +1,6 @@
 @import "tailwindcss";
 
 @layer components {
-    .text-label {
-        @apply text-xl text-white font-medium text-nowrap;
-    }
-    .form-heading {
-        @apply m-4 font-bold text-3xl self-center text-white text-nowrap;
-    }
-    .form-input {
-        @apply bg-transparent text-white focus:outline-none;
-    }
-    .login-msg {
-        @apply text-sm text-white font-medium text-nowrap mt-2;
-    }
-    .form-error-field-msg {
-        @apply bg-red-300 text-red-600 rounded-sm;
-    }
-    .password-fields {
-        @apply flex justify-between ;
-    }
-    .horizontal-nav  .active{
-        @apply px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition;
-    }
-}
-@layer components {
     html, body, #root {
         @apply h-[104%] w-full;
     }

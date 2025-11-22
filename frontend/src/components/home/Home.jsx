@@ -37,9 +37,6 @@ export function Home() {
                 <span>Get Started Free</span>
                 <span className="group-hover:translate-x-1 transition inline-block">→</span>
               </button>
-              <button className="px-8 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg font-semibold text-lg transition">
-                View Examples
-              </button>
             </div>
 
             {/* Stats */}

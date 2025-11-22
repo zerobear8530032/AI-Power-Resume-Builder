@@ -20,7 +20,7 @@ function Navbar() {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-8">
+                    <div className="horizontal-nav hidden md:flex items-center space-x-8">
                         <NavLink to="/" className="text-gray-300 hover:text-white transition">Home</NavLink>
                         <NavLink to="/about" className="text-gray-300 hover:text-white transition">About</NavLink>
                         <NavLink to="/contact" className="text-gray-300 hover:text-white transition">Contact</NavLink>
@@ -39,7 +39,7 @@ function Navbar() {
 
                 {/* Mobile Navigation */}
                 {isMenuOpen && (
-                    <div className="md:hidden py-4 space-y-3">
+                    <div className="vertical-nav md:hidden py-4 space-y-3">
                         <h1>{loginUser}</h1>
                         <NavLink to="/" className="block text-gray-300 hover:text-white transition">Home</NavLink>
                         <NavLink to="/about" className="block text-gray-300 hover:text-white transition">About</NavLink>
