@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import cities from "../utildata/cities";
 import countries from "../utildata/countries";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 function PersonalInfoForm() {
   const cityList = cities;
   const countryList = countries;
+  const navigate = useNavigate();
 
   const {
     register,
@@ -84,21 +86,25 @@ function PersonalInfoForm() {
 
   function onSubmit(data) {
     console.log(data);
+    navigate("/build/2");
+
   }
 
-  const [socialLinks, setSocialLinks] = useState([{ "name": "", "link": "" }]);
+  const { fields: socialFields, append, remove } = useFieldArray({
+    control: control,
+    name: "socials"
+  }
+  );
   const addFieldHandler = () => {
-    setSocialLinks((state) => {
-      console.log(state);
-      return [...state, { "name": "", "link": "" }]
+    append({
+      socialName: "",
+      socialLink: "",
     })
   }
   const deleteFieldHanlder = () => {
-    setSocialLinks((state) => {
-      const newArray = [...state]; // copy first
-      newArray.pop();              // safe remove one element
-      return newArray;
-    })
+    if(socialFields.length>0){
+      remove(socialFields.length-1);
+    }
   }
 
   return (
@@ -286,37 +292,37 @@ function PersonalInfoForm() {
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
               </span>
             </div>
-            {socialLinks.map((fields, idx) => (
+            {socialFields.map((fields, index) => (
               <div
-                key={idx}
+                key={fields.id}
                 className="flex flex-col gap-3 p-4 bg-gray-800 rounded-lg border border-gray-700 mb-4"
               >
                 {/* Social Media Name */}
                 <div className="flex flex-col">
                   <label
-                    htmlFor={`media${idx}`}
+                    htmlFor={`socials.${index}.socialName`}
                     className="text-sm font-medium text-gray-300"
                   >
-                    Media {idx + 1} <span className="text-red-400">*</span>
+                    Media {index + 1} <span className="text-red-400">*</span>
                   </label>
 
                   <input
-                    id={`media${idx}`}
+                    id={`socials.${index}.socialName`}
                     type="text"
                     placeholder="Enter Social Media Name"
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 
-                   rounded-lg text-gray-100 placeholder-gray-400
-                   focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    {...register(`socialMedia${idx}`, {
+                    rounded-lg text-gray-100 placeholder-gray-400
+                    focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    {...register(`socials.${index}.socialName`, {
                       required: {
                         value: true,
                         message: "This field is required or delete the entry",
                       },
                     })}
                   />
-                  {errors[`socialMedia${idx}`] && (
-                    <span className="text-red-400 text-sm flex items-center gap-1">
-                      <span>⚠</span> {errors[`socialMedia${idx}`]?.message}
+                  {errors.socials?.[index]?.socialName && (
+                    <span className='text-red-400 text-sm flex items-center gap-1'>
+                      <span>⚠</span> {errors.socials[index]?.socialName?.message}
                     </span>
                   )}
 
@@ -325,32 +331,32 @@ function PersonalInfoForm() {
                 {/* Link */}
                 <div className="flex flex-col">
                   <label
-                    htmlFor={`link${idx}`}
+                    htmlFor={`socials.${index}.socialLink`}
                     className="text-sm font-medium text-gray-300"
                   >
-                    Link {idx + 1} <span className="text-red-400">*</span>
+                    Link {index + 1} <span className="text-red-400">*</span>
                   </label>
 
                   <input
-                    id={`link${idx}`}
+                    id={`socials.${index}.socialLink`}
                     type="url"
                     placeholder="Enter the Link"
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 
-                   rounded-lg text-gray-100 placeholder-gray-400
-                   focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    {...register(`link${idx}`, {
+                    rounded-lg text-gray-100 placeholder-gray-400
+                    focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    {...register(`socials.${index}.socialLink`, {
                       required: {
                         value: true,
                         message: "This field is required or delete the entry",
                       },
                     })}
                   />
-
-                  {errors[`link${idx}`] && (
-                    <span className="text-red-400 text-sm flex items-center gap-1">
-                      <span>⚠</span> {errors[`link${idx}`]?.message}
+                  {errors.socials?.[index]?.socialLink && (
+                    <span className='text-red-400 text-sm flex items-center gap-1'>
+                      <span>⚠</span> {errors.socials[index]?.socialLink?.message}
                     </span>
                   )}
+
                 </div>
               </div>
             ))}

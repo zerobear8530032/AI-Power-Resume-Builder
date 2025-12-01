@@ -187,7 +187,7 @@ function RegisterForm() {
                                     : "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
                             }`}
                         >
-                            {isSubmitting ? "Creating Account..." : "Sign Up"}
+                        {isSubmitting ? "Creating Account..." : "Sign Up"}
                         </button>
 
                         {/* Link */}

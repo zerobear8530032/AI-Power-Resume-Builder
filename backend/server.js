@@ -1,10 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv"
-import { registerSchema, getUserByName, getUserByEmail } from "./model/userDataSchema.js";
+import dotenv, { populate } from "dotenv"
+import { userModel, getUserByName, getUserByEmail } from "./model/userDataSchema.js";
 import { comparePassword, hashPassword } from "./security/managePassword.js";
 import { createJWT, verifyJWT } from "./security/jwt.js"
-import { manageAccessToken,manageRefreshToken } from "./middleware/jwtMiddleware.js";
+import { verifyAccessToken, verifyRefreshToken } from "./middleware/jwtMiddleware.js";
+
+import resumeRouter from "./routes/resumeRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 dotenv.config();
@@ -28,11 +30,22 @@ const conn = mongoose.connect(URI);
 
 
 app.use(express.json());
-
+// Logging middleware
+// app.use((req, res, next) => {
+//     // const authHeader = req.headers['authorization']; // case-insensitive
+//     // const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
+//     console.log("JWT from header:", token);
+//     console.log("Full URL:", req.protocol + "://" + req.get("host") + req.originalUrl);
+//     console.log("Path only:", req.path);
+//     console.log("Method:", req.method);
+//     console.log("Body:", req.body);
+//     console.log("Query:", req.query);
+//     console.log("Cookies:", req.cookies); // <- all cookies as an object
+//     next();
+// });
 
 
 app.post("/register", async (req, res) => {
-
     try {
         const { username, email, password } = req.body;
         if (!username || !email || !password) {
@@ -70,7 +83,7 @@ app.post("/register", async (req, res) => {
             email: lowerEmail,
             password: hashedPassword
         };
-        const newUser = new registerSchema(newEntry);
+        const newUser = new userModel(newEntry);
         await newUser.save();
         return res.status(200).json(
             {
@@ -83,7 +96,7 @@ app.post("/register", async (req, res) => {
     }
 })
 
-function setToken(response,refreshToken,timeMilliSec){
+function setToken(response, refreshToken, timeMilliSec) {
     response.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: false, // true on production
@@ -92,10 +105,16 @@ function setToken(response,refreshToken,timeMilliSec){
     });
 }
 
+function clearToken(response) {
+    response.clearCookie("refreshToken");
+    return {"success":true,"message":"user logout"};
+}
+
 
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(req.body);
         if (!email || !password) {
             return res.status(401).json({
                 success: false,
@@ -127,27 +146,28 @@ app.post("/login", async (req, res) => {
 
         const accessToken = createJWT({
             username: user.username,
-            email: user.email
+            email: user.email,
+            user_id: user._id,
         }, ACCESS_SECRET_KEY, "HS256", "15m");
 
 
         const refreshToken = createJWT(
             {
                 username: user.username,
-                email: user.email
+                email: user.email,
+                id: user._id,
             },
             REFRESH_SECRET_KEY,
             "HS256",
             "7d"
         );
-//         console.log(`refresh token ${refreshToken}`);
-//         console.log(`access token ${accessToken}`);
-// //  refresh token expire in 7 days :
-        setToken(res,refreshToken,7 * 24 * 60 * 60 * 1000);
+        
+        setToken(res, refreshToken, 7 * 24 * 60 * 60 * 1000);
         return res.status(200).json(
             {
                 "success": true,
                 "username": user.username,
+                "id": user._id,
                 "email": user.email,
                 "accessToken": accessToken
             }
@@ -157,10 +177,20 @@ app.post("/login", async (req, res) => {
     }
 })
 
-
-app.get("/",manageAccessToken, (req, res) => {
-    return res.status(200).json({user:req.user,body:req.body});
+app.post("/logout",(req,res)=>{
+    const result= clearToken(res);
+    return res.json(result);
 })
+
+
+app.get("/", verifyAccessToken, (req, res) => {
+    return res.status(200).json({ user: req.user, body: req.body });
+})
+
+app.use("/resume", verifyAccessToken, resumeRouter);
+
+
+
 
 app.listen(port, () => {
     console.log(`server listening at Port ${port}`);

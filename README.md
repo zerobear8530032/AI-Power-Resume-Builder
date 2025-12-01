@@ -66,7 +66,7 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 
 ---
 
-## 3️⃣ Education
+## 3️⃣ Education Optional
 
 | Field | Type | Required | Notes |
 | --- | --- | --- | --- |
@@ -74,7 +74,6 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 | `degree` | string | ✅ | Course or qualification (e.g., B.Tech in AI & DS) |
 | `year` | string | ✅ | e.g., “2021–2025” |
 | `grade` | string | 🟨 | CGPA or percentage (optional) |
-| `details` | string | 🟨 | Short description (e.g., “Completed with ML specialization”) |
 
 > 📘 Education should be stored as an **array** for multiple entries.
 
@@ -84,9 +83,8 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 
 | Field | Type | Required | Notes |
 | --- | --- | --- | --- |
-| `technicalSkills` | array | ✅ | Example: `[ "Python", "React", "Node.js", "Machine Learning" ]` |
-| `softSkills` | array | 🟨 | Example: `[ "Teamwork", "Communication" ]` |
-| `toolsAndFrameworks` | array | 🟨 | Example: `[ "VS Code", "Git", "Figma" ]` |
+| `tag name` | array | ✅ | Example: `[ "softskill , frameworks , tools etc" ]` |
+| `skillname` | array | 🟨 | Example: `[ "VS Code", "Git", "Figma","java","python" ]` |
 
 > 💡 Use keyword lists (not paragraphs). Recruiters and ATS prefer short, scannable lists.
 
@@ -169,5 +167,17 @@ Everything else is optional or redundant for most tech resumes.
 | Accent         | `#16F2B3` (Neon Mint)   |
 | Text Primary   | `#E6ECFF`               |
 | Text Secondary | `#9AA4C4`               |
+
+
+<!-- resume end points  -->
+| **HTTP Method** | **Endpoint**   | **Description**                       | **Body Required**                           | **Auth Required** |
+| --------------- | -------------- | ------------------------------------- | ------------------------------------------- | ----------------- |
+| **GET**         | `/resumes`     | Get all resumes of the logged-in user | ❌ No                                        | ✅ Yes             |
+| **POST**        | `/resumes`     | Create a new resume                   | ✔ Yes — resume object (or empty)            | ✅ Yes             |
+| **GET**         | `/resumes/:id` | Get a specific resume by ID           | ❌ No                                        | ✅ Yes             |
+| **PUT**         | `/resumes/:id` | Replace/update entire resume          | ✔ Full resume object                        | ✅ Yes             |
+| **PATCH**       | `/resumes/:id` | Partial update (e.g., auto-save)      | ✔ Partial data                              | ✅ Yes             |
+| **DELETE**      | `/resumes/:id` | Delete a resume                       | ❌ No                                        | ✅ Yes             |
+| **POST**        | `/ai/optimize` | Optimize resume sections using AI     | ✔ `{ sectionName, content }` or full resume | ✅ Yes             |
 
 

@@ -7,14 +7,17 @@ export function createJWT(data,key,algorithm,time){
 }
 
 export function verifyJWT(token,key,algorithms){
-    // console.log(`token : ${token},/n key : ${key}, algo : /n${algorithms}`);
     let tokendata=null;
     try{
         tokendata=jwt.verify(token,key,{algorithms:algorithms});
     }catch(err){
-        console.log("not valid ")
        return {valid:false, error:err.name}
     }
+
+    // remove unwanted token data 
+    delete tokendata.iat;
+    delete tokendata.exp;
     return {...tokendata, valid:true};
 }
 
+export default {verifyJWT,createJWT};
