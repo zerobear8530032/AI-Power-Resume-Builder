@@ -18,7 +18,9 @@ function PersonalInfoForm() {
     control,
     clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm(
+    
+  );
 
   const customStyles = {
     control: (base, state) => ({
@@ -102,8 +104,8 @@ function PersonalInfoForm() {
     })
   }
   const deleteFieldHanlder = () => {
-    if(socialFields.length>0){
-      remove(socialFields.length-1);
+    if (socialFields.length > 0) {
+      remove(socialFields.length - 1);
     }
   }
 

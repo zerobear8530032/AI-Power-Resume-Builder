@@ -16,7 +16,6 @@ function Logout() {
         method: "POST",
       })
       const response = await json_response.json();
-      navigate("/");
       return response;
     } catch (err) {
       console.log(err);
@@ -26,12 +25,15 @@ function Logout() {
       };
     }
   }
-  useEffect(async() => {
-    localStorage.removeItem("user");
-    dispatch(logoutUser());
-    const response=await clearRefreshToken();
-    navigate("/");
-  }, [dispatch]); // run once when component mounts
+  useEffect(() => {
+    const handleLogout =async () => {
+      localStorage.removeItem("user");
+      dispatch(logoutUser());
+      const response = await clearRefreshToken();
+      navigate("/");
+    }
+    handleLogout();
+  }, [dispatch,navigate]); // run once when component mounts
 
   return null; // no UI needed
 }

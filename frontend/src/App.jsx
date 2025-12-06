@@ -15,14 +15,20 @@ import EducationForm from './components/builder/EducationForm.jsx';
 import SkillsForm from './components/builder/SkillsForm.jsx';
 import ProjectForm from './components/builder/ProjectForm.jsx';
 import ExperienceForm from './components/builder/ExperienceForm.jsx';
+import AITextField from './components/builder/AITextField.jsx';
 
+const getUserFromLocalStorage=()=>{
+  const user= localStorage.getItem("user")|| "{}";
+  return JSON.parse(user);
+}
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-      const savedUser = localStorage.getItem("user");
+      const savedUser = getUserFromLocalStorage();
+      console.log(savedUser);
       if (savedUser) {
-          dispatch(setLoginUser(JSON.parse(savedUser)));
+          dispatch(setLoginUser(savedUser));
       }else{
         console.log("no user login");
       }
@@ -44,6 +50,7 @@ function App() {
         <Route path="/build/5" element={<ProjectForm/>} />
         <Route path="/build/6" element={<ExperienceForm/>} />
         <Route path="/build/7" element={<h1>"you finished your resume !"</h1>} />
+        <Route path="/field" element={<AITextField description={{userText:"i am a user", aiText:"i am AI"}} onUpdate={(data)=>{console.log(data)}}/>} />
         {/* this route is for debugging dont keep it  */}
         <Route path="/currentUser" element={<h1>{localStorage.getItem("user")}</h1>} />
         {/* this route is for debugging dont keep it  */}
@@ -52,6 +59,14 @@ function App() {
       </Routes>
     </>
   )
+   // Debounce userText updates
+      useEffect(() => {
+          const timer = setTimeout(() => {
+              onUpdate?.(fieldData);
+          }, 1000); // 300ms debounce
+          return () => clearTimeout(timer); // cleanup on next change
+      }, [fieldData, onUpdate]);
+  
 }
 
 export default App

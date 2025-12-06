@@ -11,7 +11,7 @@ function ProfessionalSummary() {
         setError,
         clearErrors,
         setValue,
-    } = useForm();
+    } = useForm({});
 
     const navigate = useNavigate();
     const onSubmit = (data) => {

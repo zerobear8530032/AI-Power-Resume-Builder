@@ -265,10 +265,15 @@ function EducationForm() {
                                             Grade / CGPA <span className='text-gray-500 text-xs'>(Optional)</span>
                                         </label>
                                         <input
-                                            type="number"
+                                            type="text"
                                             className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition'
                                             placeholder='e.g., 3.8 GPA or 85'
-                                            {...register(`educations.${index}.grades`, { min: { value: 0, message: "Please Enter Grades Greater then 0" } })}
+                                            {...register(`educations.${index}.grades`, {
+                                                pattern: {
+                                                    value: "/^(100(\.00?)?|[0-9]?\d(\.\d{1,2})?)$/",
+                                                    message: "Enter a valid number (0–100) with up to 2 decimals"
+                                                }
+                                            })} step="0.01"
                                         />
                                         {errors.educations?.[index]?.grades && (
                                             <span className='text-red-400 text-sm flex items-center gap-1'>

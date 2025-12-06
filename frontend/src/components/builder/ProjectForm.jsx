@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import ProjectTechStackField from './techStackField';
 
 function ProjectForm() {
     const {
@@ -11,11 +12,7 @@ function ProjectForm() {
         control,
         setError,
         clearErrors
-    } = useForm({
-        defaultValues: {
-            projects: []
-        }
-    });
+    } = useForm({});
 
     const { fields: projectFields, append, remove } = useFieldArray({
         control: control,
@@ -36,13 +33,13 @@ function ProjectForm() {
             {
                 projectTitle: "",
                 projectDescription: "",
-                techStack: "",
+                techStacks: [""],
                 codeURL: "",
                 deployedURL: ""
             }
         )
     }
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     const onSubmit = (data) => {
         console.log(data)
         navigate('/build/6');
@@ -178,28 +175,7 @@ function ProjectForm() {
                                 </div>
 
                                 {/* Tech Stack */}
-                                <div className='space-y-2'>
-                                    <label
-                                        htmlFor={`projects.${index}.techStack`}
-                                        className='block text-sm font-medium text-gray-300'
-                                    >
-                                        Tech Stack <span className='text-gray-500 text-xs'>(Optional)</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition'
-                                        placeholder='e.g., React, Node.js, MongoDB, TensorFlow'
-                                        {...register(`projects.${index}.techStack`)}
-                                    />
-                                    {errors.projects?.[index]?.techStack && (
-                                        <span className='text-red-400 text-sm flex items-center gap-1'>
-                                            <span>⚠</span> {errors.projects[index]?.techStack?.message}
-                                        </span>
-                                    )}
-                                    <p className='text-xs text-gray-400 flex items-center gap-1'>
-                                        💡 Separate technologies with commas
-                                    </p>
-                                </div>
+                                <ProjectTechStackField index={index} control={control} register={register} errors={errors} />
 
                                 {/* URLs in Grid */}
                                 <div className='grid md:grid-cols-2 gap-5'>
@@ -286,7 +262,7 @@ function ProjectForm() {
                         )}
 
                         {/* Continue Button - Always visible */}
-                         {projectFields.length > 0 ?
+                        {projectFields.length > 0 ?
                             <>
                                 <button
                                     type='submit'

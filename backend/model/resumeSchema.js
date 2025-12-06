@@ -9,7 +9,7 @@ const resumeSchema = new schemaCreator({
 
 export const resumeModel = mongoose.model("resumes",resumeSchema);
 
-
+//  give all entry of resume with given user_id
 export async function  getAllResume(user_id ){
     try{
         const userResumes= await resumeModel.find({user_id:user_id}); 
@@ -19,6 +19,7 @@ export async function  getAllResume(user_id ){
     }
 }
 
+// get a resume by resume_id but it ensure user_id is same for authorization that resume belongs to user 
 export async function  getResumeById(user_id,resume_id ){
     try{
         const userResumes= await resumeModel.findOne({user_id:user_id,_id:resume_id}); 
@@ -29,13 +30,14 @@ export async function  getResumeById(user_id,resume_id ){
     }
 }
 
-export async function updateResume(resume_id, updatedSections) {
-    try{
-        const resume = await resumeModel.updateOne({_id:resume_id},{updatedSections});    
-        return resume;
-    }catch(err){
-        return { error : err.name , success:false};
-    }    
-}
+// this is work in progress not completed yet 
+// export async function updateResume(resume_id, updatedSections) {
+//     try{
+//         const resume = await resumeModel.updateOne({_id:resume_id},{updatedSections});    
+//         return resume;
+//     }catch(err){
+//         return { error : err.name , success:false};
+//     }    
+// }
 
 

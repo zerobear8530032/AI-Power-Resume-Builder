@@ -100,8 +100,8 @@ function ExperienceForm() {
             onClick={deleteFieldHanlder}
             disabled={experienceFields.length === 0}
             className={`flex items-center gap-2 px-5 py-2.5 font-semibold rounded-lg transition shadow-lg ${experienceFields.length === 0
-                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                : 'bg-red-600 hover:bg-red-700 text-white'
+              ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+              : 'bg-red-600 hover:bg-red-700 text-white'
               }`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
@@ -260,8 +260,8 @@ function ExperienceForm() {
                 type='submit'
                 disabled={isSubmitting}
                 className={`flex-1 py-3 rounded-lg font-semibold text-lg transition ${isSubmitting
-                    ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700 shadow-lg"
+                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700 shadow-lg"
                   }`}
               >
                 {isSubmitting ? (

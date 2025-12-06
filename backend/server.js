@@ -1,10 +1,11 @@
+//  main server file 
 import express from "express";
 import mongoose from "mongoose";
 import dotenv, { populate } from "dotenv"
 import { userModel, getUserByName, getUserByEmail } from "./model/userDataSchema.js";
 import { comparePassword, hashPassword } from "./security/managePassword.js";
 import { createJWT, verifyJWT } from "./security/jwt.js"
-import { verifyAccessToken, verifyRefreshToken } from "./middleware/jwtMiddleware.js";
+import { processJWTMiddleWare } from "./middleware/jwtMiddleware.js";
 
 import resumeRouter from "./routes/resumeRoutes.js";
 import cookieParser from "cookie-parser";
@@ -30,7 +31,7 @@ const conn = mongoose.connect(URI);
 
 
 app.use(express.json());
-// Logging middleware
+// Logging middlewarecle
 // app.use((req, res, next) => {
 //     // const authHeader = req.headers['authorization']; // case-insensitive
 //     // const token = authHeader && authHeader.split(' ')[1]; // Bearer <token>
@@ -96,6 +97,7 @@ app.post("/register", async (req, res) => {
     }
 })
 
+// set the user Refresh token in Cookied
 function setToken(response, refreshToken, timeMilliSec) {
     response.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -105,14 +107,20 @@ function setToken(response, refreshToken, timeMilliSec) {
     });
 }
 
+// clear the user Refresh token in Cookied
 function clearToken(response) {
     response.clearCookie("refreshToken");
-    return {"success":true,"message":"user logout"};
+    return { "success": true, "message": "user logout" };
 }
 
 
+// this is login where 2 jwt get created 
+// 1 short lived access token
+// one long lived refresh token
+
 app.post("/login", async (req, res) => {
     try {
+        // validate user inputs
         const { email, password } = req.body;
         console.log(req.body);
         if (!email || !password) {
@@ -134,7 +142,7 @@ app.post("/login", async (req, res) => {
                 fields: ["email", "password"]
             });
         }
-
+        // compare user password with hashed password
         const isMatch = await comparePassword(password, user.password);
         if (!isMatch) {
             return res.status(401).json({
@@ -143,7 +151,7 @@ app.post("/login", async (req, res) => {
                 fields: ["email", "password"]
             });
         }
-
+        // creating access token
         const accessToken = createJWT({
             username: user.username,
             email: user.email,
@@ -151,6 +159,7 @@ app.post("/login", async (req, res) => {
         }, ACCESS_SECRET_KEY, "HS256", "15m");
 
 
+        // creating refresh token
         const refreshToken = createJWT(
             {
                 username: user.username,
@@ -161,7 +170,8 @@ app.post("/login", async (req, res) => {
             "HS256",
             "7d"
         );
-        
+
+        // set refresh token in user cookies
         setToken(res, refreshToken, 7 * 24 * 60 * 60 * 1000);
         return res.status(200).json(
             {
@@ -177,21 +187,25 @@ app.post("/login", async (req, res) => {
     }
 })
 
-app.post("/logout",(req,res)=>{
-    const result= clearToken(res);
+// logout : clear cookies which are set for refresh Token 
+app.post("/logout", (req, res) => {
+    const result = clearToken(res);
     return res.json(result);
 })
 
 
-app.get("/", verifyAccessToken, (req, res) => {
+// this is  test route to check user is login not for end user 
+
+app.get("/", processJWTMiddleWare, (req, res) => {
     return res.status(200).json({ user: req.user, body: req.body });
 })
 
-app.use("/resume", verifyAccessToken, resumeRouter);
+// added the resume routes
+app.use("/resume", processJWTMiddleWare, resumeRouter);
 
 
 
-
+// start server
 app.listen(port, () => {
     console.log(`server listening at Port ${port}`);
 })

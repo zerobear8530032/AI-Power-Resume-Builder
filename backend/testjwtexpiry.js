@@ -1,0 +1,3 @@
+import { isJwtExpired } from 'jwt-check-expiration';
+ 
+console.log('isExpired is:', isJwtExpired('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inplcm9iZWFyODUzMDAzMiIsImVtYWlsIjoiemVyb2JlYXI4NTMwMDMyQGdtYWlsLmNvbSIsImlkIjoiNjkyYjQwZjYzZWJlYTUxYjk4ZWU5MzJhIiwiaWF0IjoxNzY0NDQ1MTc2LCJleHAiOjE3NjUwNDk5NzZ9.RaJsVV9bgYWX-hsg-bpPHoCClRQvIOFNx27rdsVb22s'));

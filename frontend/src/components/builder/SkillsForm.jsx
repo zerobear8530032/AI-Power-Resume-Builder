@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import SkillNameField from './SkillNameField';
+
+
 
 function SkillsForm() {
     const {
@@ -12,11 +15,7 @@ function SkillsForm() {
         setError,
         clearErrors
     } = useForm({
-        defaultValues: {
-            skills: []
-        }
-    });
-
+        defaultValues:{}});
     const { fields: skillFields, append, remove } = useFieldArray({
         control: control,
         name: "skills"
@@ -33,7 +32,7 @@ function SkillsForm() {
     const addFieldHandler = () => {
         append({
             skillTag: "",
-            skillName: ""
+            skillNames: [""]
         })
     }
     const onSubmit = (data) => {
@@ -73,7 +72,7 @@ function SkillsForm() {
                             <strong>Skill Tag:</strong> Category name (e.g., "Programming Languages", "Soft Skills", "Tools & Frameworks")
                         </p>
                         <p className='text-gray-300 text-sm'>
-                            <strong>Skill Names:</strong> List your specific skills separated by commas (e.g., "Python, JavaScript, Java")
+                            <strong>Skill Names:</strong> List your specific skills use Add Field + to add more Skills  (e.g., "Python, JavaScript, Java")
                         </p>
                     </div>
                 </div>
@@ -95,8 +94,8 @@ function SkillsForm() {
                         onClick={deleteFieldHanlder}
                         disabled={skillFields.length === 0}
                         className={`flex items-center gap-2 px-5 py-2.5 font-semibold rounded-lg transition shadow-lg ${skillFields.length === 0
-                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                                : 'bg-red-600 hover:bg-red-700 text-white'
+                            ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                            : 'bg-red-600 hover:bg-red-700 text-white'
                             }`}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
@@ -151,28 +150,7 @@ function SkillsForm() {
                                 </div>
 
                                 {/* Skill Names Field */}
-                                <div className='space-y-2'>
-                                    <label
-                                        htmlFor={`skills.${index}.skillName`}
-                                        className='block text-sm font-medium text-gray-300'
-                                    >
-                                        Skills <span className='text-red-400'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition'
-                                        placeholder='e.g., Python, JavaScript, React, Node.js'
-                                        {...register(`skills.${index}.skillName`, { required: "Please enter the skill names" })}
-                                    />
-                                    {errors.skills?.[index]?.skillName && (
-                                        <span className='text-red-400 text-sm flex items-center gap-1'>
-                                            <span>⚠</span> {errors.skills[index]?.skillName?.message}
-                                        </span>
-                                    )}
-                                    <p className='text-xs text-gray-400 flex items-center gap-1'>
-                                        💡 Separate multiple skills with commas
-                                    </p>
-                                </div>
+                                <SkillNameField index={index} control={control} register={register} errors={errors} />
                             </div>
                         )
                     })}
@@ -185,8 +163,8 @@ function SkillsForm() {
                                 type='submit'
                                 disabled={isSubmitting}
                                 className={`flex-1 py-3 rounded-lg font-semibold text-lg transition ${isSubmitting
-                                        ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700 shadow-lg"
+                                    ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                                    : "bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700 shadow-lg"
                                     }`}
                             >
                                 {isSubmitting ? (

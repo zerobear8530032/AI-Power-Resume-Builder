@@ -1,11 +1,11 @@
 import jwt  from "jsonwebtoken";
 
-
+//   create the jwt and return it
 export function createJWT(data,key,algorithm,time){
     const token = jwt.sign(data,key,{algorithm:algorithm,expiresIn:time});
     return token;
 }
-
+//  verifies jwt is expired or not and return data extracted from jwt 
 export function verifyJWT(token,key,algorithms){
     let tokendata=null;
     try{
