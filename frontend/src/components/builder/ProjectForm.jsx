@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ProjectTechStackField from './techStackField';
+import AITextField from './AITextField';
 
 function ProjectForm() {
     const {
@@ -161,17 +162,15 @@ function ProjectForm() {
                                     >
                                         Project Description <span className='text-red-400'>*</span>
                                     </label>
-                                    <textarea
-                                        rows={4}
-                                        className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none'
-                                        placeholder='Brief overview of the project, your role, and key features (2-3 lines)'
-                                        {...register(`projects.${index}.projectDescription`, { required: "Please enter the project description" })}
+                                    <Controller
+                                        name={`projects.${index}.description`}
+                                        control={control}
+                                        defaultValue={{ userText: "", aiText: "" }}
+                                        rules={{ required: "Description is required" }}
+                                        render={({ field }) => (
+                                            <AITextField {...field} placeHolder={"Developed a full-stack e-commerce platform enabling 1000+ daily transactions. Built responsive frontend using React and Redux, integrated Stripe payment gateway, and designed RESTful APIs with Node.js and MongoDB. Implemented user authentication, real-time inventory tracking, and admin dashboard. Improved page load speed by 45% through code optimization and lazy loading. Deployed on AWS with CI/CD pipeline using GitHub Actions."}/>
+                                        )}
                                     />
-                                    {errors.projects?.[index]?.projectDescription && (
-                                        <span className='text-red-400 text-sm flex items-center gap-1'>
-                                            <span>⚠</span> {errors.projects[index].projectDescription?.message}
-                                        </span>
-                                    )}
                                 </div>
 
                                 {/* Tech Stack */}

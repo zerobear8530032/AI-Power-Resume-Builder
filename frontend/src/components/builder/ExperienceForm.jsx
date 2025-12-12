@@ -1,6 +1,7 @@
 import React from 'react'
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
+import AITextField from './AITextField';
 
 function ExperienceForm() {
   const {
@@ -233,11 +234,15 @@ function ExperienceForm() {
                   >
                     Responsibilities & Achievements <span className='text-red-400'>*</span>
                   </label>
-                  <textarea
-                    rows={5}
-                    className='w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none'
-                    placeholder='• Developed and deployed 5+ features using React and Node.js&#10;• Collaborated with cross-functional teams to improve user experience&#10;• Reduced page load time by 40% through optimization'
-                    {...register(`experiences.${index}.description`, { required: "Description is required" })}
+
+                  <Controller
+                    name={`experiences.${index}.description`}
+                    control={control}
+                    defaultValue={{ userText: "", aiText: "" }}
+                    rules={{ required: "Description is required" }}
+                    render={({ field }) => (
+                      <AITextField {...field} />
+                    )}
                   />
                   {errors.experiences?.[index]?.description && (
                     <span className='text-red-400 text-sm flex items-center gap-1'>

@@ -1,22 +1,32 @@
-# AI-Power-Resume-Builder
-This Repo Contains the AI-Power Resume builder which take a resume information form the user and with some job description you are applying for and it modify the resume errors like spelling mistakes and  ats and give a report
+# AI-Powered Resume Builder Web App
 
+A dynamic web application that allows users to build resumes tailored to specific job descriptions. The app features JWT-based authentication, a modular backend with Node.js & Express, and a React frontend. Users can register, login, create resumes, and manage templates.
 
-# Features 
-
+# Features
 <ul>
-    <li>Manage Multiple resume</li>
-    <li>Report Generation</li>
-    <li>Multiple Resume Templates Support</li>
-    <li>Flexible Design works on Mobile and Windows</li>
-    <li>JWT authentication</li>
+<li>User registration and login with JWT authentication (two tokens for different purposes).</li>
+
+<li>Create, save, and manage resumes tailored to job descriptions.</li>
+
+<li>RESTful API backend built with Node.js and Express.js.</li>
+
+<li>Frontend built with React.js for dynamic and responsive UI.</li>
+
+<li>Modular architecture following MVC pattern.</li>
+
+<li>Uses MongoDB (Mongoose) for data storage.</li>
+
+<li>Easy local setup with separate frontend and backend servers.</li>
 </ul>
 
 # Tech Stack 
+
 <ul>
-    <li>React/Tailwind for Front End</li>
-    <li>Mongo for backend </li>
-    <li>Gemini/ Junie AI for resume analysis</li>
+<li>Frontend: React.js</li>
+<li>Backend: Node.js, Express.js</li>
+<li>Database: MongoDB</li>
+<li>Authentication: JWT (two tokens)</li>
+<li>Version Control: Git</li>
 </ul>
 
 
@@ -30,14 +40,6 @@ This Repo Contains the AI-Power Resume builder which take a resume information f
 <li>User password (Hashed)</li>
 </ul>
 
-` Resume Collections : User Resumes in JSON `
-
-# 🧩 Resume Builder & Analyzer — Data Structure Guide
-
-`This document defines the standardized structure for collecting and rendering resume data.
-It ensures consistent formatting across templates, forms, and JSON generation.`
-
----
 
 ## 1️⃣ Personal Information
 
@@ -51,7 +53,6 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 | `socialLinks` | array | 🟨 | Each object: `{ platform: "LinkedIn", url: "..." }` |
 | `portfolio` | string | 🟨 | Personal website or GitHub profile link |
 
-> 💡 Keep it concise — avoid address, photo, DOB, or nationality.
 
 ---
 
@@ -60,11 +61,6 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 | Field | Type | Required | Notes |
 | --- | --- | --- | --- |
 | `summary` | string | 🟨 | 3–5 lines describing career goals, interests, and strengths. Optional but recommended for freshers. |
-
-**Example:**
-> “Passionate AI and full-stack developer skilled in React, Python, and ML. Eager to build intelligent and scalable web solutions.”
-
----
 
 ## 3️⃣ Education Optional
 
@@ -86,9 +82,6 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 | `tag name` | array | ✅ | Example: `[ "softskill , frameworks , tools etc" ]` |
 | `skillname` | array | 🟨 | Example: `[ "VS Code", "Git", "Figma","java","python" ]` |
 
-> 💡 Use keyword lists (not paragraphs). Recruiters and ATS prefer short, scannable lists.
-
----
 
 ## 5️⃣ Projects
 
@@ -99,9 +92,6 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 | `techStack` | array | 🟨 | Example: `[ "React", "Flask", "TensorFlow" ]` |
 | `link` | string | 🟨 | GitHub or live demo URL |
 
-> 💡 Include 2–3 impactful projects; each stored as an object inside an array.
-
----
 
 ## 6️⃣ Experience
 
@@ -112,9 +102,6 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 | `duration` | string | ✅ | Example: “Jan 2024 – May 2024” |
 | `description` | string | ✅ | 3–5 bullet points of responsibilities or achievements |
 
-> 💡 Experience should be an **array**; users may have multiple entries.
-
----
 
 ## 7️⃣ Certifications
 
@@ -124,8 +111,6 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 | `organization` | string | 🟨 | Issuing platform (e.g., Coursera, Google) |
 | `year` | string | 🟨 | Example: “2023” |
 | `link` | string | 🟨 | Verification or credential URL |
-
-> 💡 Add only relevant certifications (AI, Web, Cloud, etc.)
 
 ---
 
@@ -150,34 +135,12 @@ It ensures consistent formatting across templates, forms, and JSON generation.`
 6. Experience (optional)  
 7. Certifications (optional)
 
-Everything else is optional or redundant for most tech resumes.
 
----
-
-> ✨ *Designed to make your Resume Builder & Analyzer structured, ATS-friendly, and developer-ready.*
-
-
-
-| Role           | Color                   |
-| -------------- | ----------------------- |
-| Background     | `#0A0F22`               |
-| Surface        | `#11182F`               |
-| Primary        | `#3A7BFF` (Neon Blue)   |
-| Secondary      | `#9B5CFF` (Violet Glow) |
-| Accent         | `#16F2B3` (Neon Mint)   |
-| Text Primary   | `#E6ECFF`               |
-| Text Secondary | `#9AA4C4`               |
-
-
-<!-- resume end points  -->
-| **HTTP Method** | **Endpoint**   | **Description**                       | **Body Required**                           | **Auth Required** |
-| --------------- | -------------- | ------------------------------------- | ------------------------------------------- | ----------------- |
-| **GET**         | `/resumes`     | Get all resumes of the logged-in user | ❌ No                                        | ✅ Yes             |
-| **POST**        | `/resumes`     | Create a new resume                   | ✔ Yes — resume object (or empty)            | ✅ Yes             |
-| **GET**         | `/resumes/:id` | Get a specific resume by ID           | ❌ No                                        | ✅ Yes             |
-| **PUT**         | `/resumes/:id` | Replace/update entire resume          | ✔ Full resume object                        | ✅ Yes             |
-| **PATCH**       | `/resumes/:id` | Partial update (e.g., auto-save)      | ✔ Partial data                              | ✅ Yes             |
-| **DELETE**      | `/resumes/:id` | Delete a resume                       | ❌ No                                        | ✅ Yes             |
-| **POST**        | `/ai/optimize` | Optimize resume sections using AI     | ✔ `{ sectionName, content }` or full resume | ✅ Yes             |
-
-
+## SETUP Project 
+<ul>
+<li>clone Repo</li>
+<li>set up environment variable  </li>
+<li>run dev server in from frontend directory</li>
+<li>run server.js in from backend directory</li>
+<li>you will get the web page on the port mention in env file</li>
+</ul>

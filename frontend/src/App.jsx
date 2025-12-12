@@ -59,13 +59,6 @@ function App() {
       </Routes>
     </>
   )
-   // Debounce userText updates
-      useEffect(() => {
-          const timer = setTimeout(() => {
-              onUpdate?.(fieldData);
-          }, 1000); // 300ms debounce
-          return () => clearTimeout(timer); // cleanup on next change
-      }, [fieldData, onUpdate]);
   
 }
 
